@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solidarity Frame</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-image: url('https://static01.nyt.com/images/2023/11/29/multimedia/28stephens1-gkwb/28stephens1-gkwb-articleLarge.jpg?quality=75&auto=webp&disable=upscale'); /* Arka plan fotoğrafı buraya eklenecek */
+      background-size: cover;
+      background-position: center;
+    }
+
+    .language-select {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+
+    .language-select select {
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 8px;
+      width: 150px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+  </style>
+</head>
+
+<body class="flex flex-col min-h-screen text-white bg-black bg-opacity-50">
+  <div class="language-select">
+    <select id="languageSelect">
+      <option value="en" data-flag="🇬🇧">English</option>
+      <option value="tr" data-flag="🇹🇷">Türkçe</option>
+      <option value="ar" data-flag="🇸🇦">العربية</option>
+      <option value="az" data-flag="🇦🇿">Azərbaycanca</option>
+    </select>
+  </div>
+
+  <header class="text-center mt-10">
+    <h1 class="text-4xl font-bold" id="titleText">Join the solidarity!</h1>
+    <h2 class="text-xl mt-2" id="subtitleText">Add Palestine, East Turkestan frames to your social media profiles and show your support!</h2>
+    <h2 class="text-xl mt-2" id="checkOptionsText">Check out the options below!</h2>
+  </header>
+
+  <main class="flex flex-wrap justify-center items-center gap-8 my-10 px-4">
+    <div class="flex flex-col items-center text-center w-40 sm:w-44 md:w-52">
+      <button class="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full overflow-hidden shadow-lg transition transform hover:scale-105">
+        <img src="http://solidarityframe.github.io/dtornek.png" alt="Photo 1" class="w-full h-full object-cover" />
+      </button>
+      <h3 class="text-lg font-semibold mt-4" id="frame1Title">Palestine Profile Frame</h3>
+      <p class="text-sm text-gray-200 mt-1" id="frame1Desc">Join the solidarity by adding a Palestine profile frame to your profile!</p>
+    </div>
+
+    <div class="flex flex-col items-center text-center w-40 sm:w-44 md:w-52">
+      <button class="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full overflow-hidden shadow-lg transition transform hover:scale-105">
+        <img src="photo2.jpg" alt="Photo 2" class="w-full h-full object-cover" />
+      </button>
+      <h3 class="text-lg font-semibold mt-4" id="frame2Title">East Turkestan Profile Frame</h3>
+      <p class="text-sm text-gray-200 mt-1" id="frame2Desc">Join the solidarity by adding an East Turkestan profile frame to your profile!</p>
+    </div>
+
+    <div class="flex flex-col items-center text-center w-40 sm:w-44 md:w-52">
+      <button class="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full overflow-hidden shadow-lg transition transform hover:scale-105">
+        <img src="photo3.jpg" alt="Photo 3" class="w-full h-full object-cover" />
+      </button>
+      <h3 class="text-lg font-semibold mt-4" id="frame3Title">East Turkestan, Palestine and Turkey Profile Frame</h3>
+      <p class="text-sm text-gray-200 mt-1" id="frame3Desc">Join the solidarity for both East Turkestan and Palestine by adding this frame to your profile!</p>
+    </div>
+  </main>
+
+  <footer id="footerText" class="mt-auto py-6 text-center text-sm text-gray-300 bg-black bg-opacity-60">
+    © 2025 <span id="designerText">Designer Meriç YÜZAKLI</span> | RMR
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        title: "Join the solidarity!",
+        subtitle: "Add Palestine, East Turkestan frames to your social media profiles and show your support!",
+        checkOptions: "Check out the options below!",
+        frame1Title: "Palestine Profile Frame",
+        frame1Desc: "Join the solidarity by adding a Palestine profile frame to your profile!",
+        frame2Title: "East Turkestan Profile Frame",
+        frame2Desc: "Join the solidarity by adding an East Turkestan profile frame to your profile!",
+        frame3Title: "East Turkestan, Palestine and Turkey Profile Frame",
+        frame3Desc: "Join the solidarity for both East Turkestan and Palestine by adding this frame to your profile!",
+        designer: "Designer Meriç YÜZAKLI"
+      },
+      tr: {
+        title: "Dayanışmaya katıl!",
+        subtitle: "Sosyal medya profillerinize Filistin, Doğu Türkistan çerçevesi ekleyerek desteğinizi gösterin!",
+        checkOptions: "Aşağıdaki seçenekleri inceleyin!",
+        frame1Title: "Filistin Profil Çerçevesi",
+        frame1Desc: "Filistin profil çerçevesini profiline ekleyerek dayanışmaya katıl!",
+        frame2Title: "Doğu Türkistan Profil Çerçevesi",
+        frame2Desc: "Doğu Türkistan profil çerçevesini profiline ekleyerek dayanışmaya katıl!",
+        frame3Title: "Doğu Türkistan, Filistin ve Türkiye Profil Çerçevesi",
+        frame3Desc: "Bu çerçeveyi profile ekleyerek hem Doğu Türkistan hem de Filistin için dayanışmaya katılabilirsin!",
+        designer: "Tasarımcı Meriç YÜZAKLI"
+      },
+      ar: {
+        title: "انضم إلى التضامن!",
+        subtitle: "أضف إطارات فلسطين، تركستان الشرقية إلى ملفاتك الشخصية على وسائل التواصل الاجتماعي وأظهر دعمك!",
+        checkOptions: "تحقق من الخيارات أدناه!",
+        frame1Title: "إطار الملف الشخصي لفلسطين",
+        frame1Desc: "انضم إلى التضامن من خلال إضافة إطار ملف شخصي فلسطيني إلى ملفك الشخصي!",
+        frame2Title: "إطار الملف الشخصي لتركستان الشرقية",
+        frame2Desc: "انضم إلى التضامن من خلال إضافة إطار ملف شخصي لتركستان الشرقية إلى ملفك الشخصي!",
+        frame3Title: "إطار الملف الشخصي لتركستان الشرقية وفلسطين وتركيا",
+        frame3Desc: "انضم إلى التضامن مع تركستان الشرقية وفلسطين من خلال إضافة هذا الإطار إلى ملفك الشخصي!",
+        designer: "المصمم ميريتش يوزاكلي"
+      },
+      az: {
+        title: "Həmrəyliyə qoşulun!",
+        subtitle: "Sosial media profillərinizə Fələstin, Şərqi Türküstan çərçivələrini əlavə edin və dəstəyinizi göstərin!",
+        checkOptions: "Aşağıdakı seçimləri yoxlayın!",
+        frame1Title: "Fələstin Profil Çərçivəsi",
+        frame1Desc: "Fələstin profil çərçivəsini əlavə edərək həmrəyliyə qoşulun!",
+        frame2Title: "Şərqi Türküstan Profil Çərçivəsi",
+        frame2Desc: "Şərqi Türküstan profil çərçivəsini əlavə edərək həmrəyliyə qoşulun!",
+        frame3Title: "Şərqi Türküstan, Fələstin və Türkiyə Profil Çərçivəsi",
+        frame3Desc: "Bu çərçivəni profilinizə əlavə edərək həm Şərqi Türküstan, həm də Fələstin üçün həmrəyliyi göstərin!",
+        designer: "Dizayner Meriç YÜZAKLI"
+      }
+    };
+
+    document.getElementById('languageSelect').addEventListener('change', function () {
+      const selectedLanguage = this.value;
+      const selectedTranslation = translations[selectedLanguage];
+
+      document.getElementById('titleText').textContent = selectedTranslation.title;
+      document.getElementById('subtitleText').textContent = selectedTranslation.subtitle;
+      document.getElementById('checkOptionsText').textContent = selectedTranslation.checkOptions;
+      document.getElementById('frame1Title').textContent = selectedTranslation.frame1Title;
+      document.getElementById('frame1Desc').textContent = selectedTranslation.frame1Desc;
+      document.getElementById('frame2Title').textContent = selectedTranslation.frame2Title;
+      document.getElementById('frame2Desc').textContent = selectedTranslation.frame2Desc;
+      document.getElementById('frame3Title').textContent = selectedTranslation.frame3Title;
+      document.getElementById('frame3Desc').textContent = selectedTranslation.frame3Desc;
+      document.getElementById('designerText').textContent = selectedTranslation.designer;
+    });
+  </script>
+</body>
+
+</html>
