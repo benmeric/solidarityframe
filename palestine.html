@@ -1,354 +1,409 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Solidarity for Palestine!</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      padding: 20px;
-      text-align: center;
-    }
-    .container {
-      max-width: 500px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-    input, button, select {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-    button {
-      background: #27ae60;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    button.reset {
-      background: #e74c3c;
-    }
-    button.other-frames {
-      background: #3498db;
-    }
-    canvas {
-      width: 100%;
-      margin-top: 20px;
-      display: none;
-      border-radius: 10px;
-    }
-    footer {
-      margin-top: 30px;
-      font-size: 14px;
-      color: #666;
-    }
-    .alert {
-      background-color: #ffcccc;
-      color: #b30000;
-      padding: 10px;
-      border: 1px solid #ff6666;
-      border-radius: 8px;
-      margin-top: 15px;
-      display: none;
-    }
-    .language-select {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-    }
-    .language-select select {
-      padding: 10px;
-      font-size: 14px;
-      border-radius: 8px;
-      width: 150px;
-    }
-    .language-select img {
-      width: 20px;
-      margin-right: 5px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Solidarity for Palestine!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://benmeric.github.io/solidarityframe/palestineback.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            padding: 20px;
+            text-align: center;
+            margin: 0;
+            display: flex; /* Added for sticky footer */
+            flex-direction: column;
+            min-height: 100vh; /* Ensure full viewport height */
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        input,
+        button,
+        select {
+            width: 80%;
+            max-width: 400px;
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            background: #27ae60;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button.reset {
+            background: #e74c3c;
+            color: white;
+        }
+
+        button.other-frames {
+            background: #3498db;
+            color: white;
+        }
+
+        canvas {
+            width: 100%;
+            margin-top: 20px;
+            display: none;
+            border-radius: 10px;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px 40px;
+            width: 100%;
+            font-size: 16px;
+            color: #eee;
+            text-align: center;
+            box-sizing: border-box;
+            border-top: 1px solid #333;
+            position: fixed; /* Make it stick to the bottom */
+            bottom: 0;
+            left: 0;
+            margin-top: auto; /* Push the footer to the bottom */
+        }
+
+
+        .alert {
+            background-color: #ffebee;
+            color: #d32f2f;
+            padding: 10px;
+            border: 1px solid #ef5350;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .language-select {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+        }
+
+        .language-select select {
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 8px;
+            width: 150px;
+            border: 1px solid #aaa;
+            background-color: white;
+            color: #333;
+        }
+
+        .language-select select:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+
+        .language-select img {
+            width: 20px;
+            margin-right: 5px;
+        }
+
+        h1, h2, h4, label {
+            color: white;
+        }
+
+        a {
+            color: #4299e1;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
 </head>
-  <link rel="icon" href="favicon.gif" type="gif">
+<link rel="icon" href="favicon.gif" type="gif">
 <body>
-  <div class="language-select">
-    <select id="languageSelect">
-      <option value="en" data-flag="🇬🇧"> 🇬🇧 English</option>
-      <option value="tr" data-flag="🇹🇷"> 🇹🇷 Türkçe</option>
-      <option value="ar" data-flag="🇸🇦"> 🇸🇦 العربية</option>
-      <option value="az" data-flag="🇦🇿"> 🇦🇿 Azərbaycanca</option>
+    <div class="language-select">
+        <select id="languageSelect">
+            <option value="en" data-flag="🇬🇧"> 🇬🇧 English</option>
+            <option value="tr" data-flag="🇹🇷"> 🇹🇷 Türkçe</option>
+            <option value="ar" data-flag="🇸🇦"> 🇸🇦 العربية</option>
+            <option value="az" data-flag="🇦🇿"> 🇦🇿 Azərbaycanca</option>
+        </select>
+    </div>
 
-    </select>
-  </div>
+    <div class="container">
+        <h1 id="titleText"> <img src="https://benmeric.github.io/solidarityframe/filistinfoto.png" alt="emoji-gorsel" style="width: 28px; vertical-align: middle;"> <span id="titleJoin">Join the solidarity!</span></h1>
+        <h2 id="subtitleText">Add a Palestine frame to your social media profiles and show your support!</h2>
+        <h4 id="guideText"><p><span id="tutorialText">For the tutorial video</span> <a href="" target="_blank" id="clickHereText">click here!</a>.</p></h4>
 
-  <div class="container">
-    <h1 id="titleText"> <img src="https://benmeric.github.io/solidarityframe/filistinfoto.png" alt="emoji-gorsel" style="width: 28px; vertical-align: middle;"> <span id="titleJoin">Join the solidarity!</span></h1>
-    <h2 id="subtitleText">Add a Palestine frame to your social media profiles and show your support!</h2>
-    <h4 id="guideText"><p><span id="tutorialText">For the tutorial video</span> <a href="" target="_blank" id="clickHereText">click here!</a>.</p></h4>
+        <label for="upload" id="uploadLabel">Upload Photo</label>
+        <input type="file" id="upload" accept="image/*">
+        <button onclick="openCamera()" id="cameraButton">📷 Take Photo</button>
+        <button onclick="window.location.href='https://benmeric.github.io/solidarityframe/'" id="otherFramesBtn" class="other-frames">← Other Frames</button>
+        <video id="video" width="100%" autoplay style="display:none;"></video>
+        <button id="capture" style="display:none;">📸 Capture</button>
 
-    <label for="upload" id="uploadLabel">Upload Photo</label>
-    <input type="file" id="upload" accept="image/*">
-    <button onclick="openCamera()" id="cameraButton">📷 Take Photo</button>
-    <button onclick="window.location.href='https://benmeric.github.io/solidarityframe/'" id="otherFramesBtn" class="other-frames">← Other Frames</button>
-    <video id="video" width="100%" autoplay style="display:none;"></video>
-    <button id="capture" style="display:none;">📸 Capture</button>
+        <div class="alert" id="errorMessage">An error occurred. Please try a different photo.</div>
 
-    <div class="alert" id="errorMessage">An error occurred. Please try a different photo.</div>
+        <canvas id="canvas"></canvas>
+        <button id="downloadBtn" style="display:none;">Download</button>
+        <button class="reset" id="resetBtn" style="display:none;">Reset</button>
+    </div>
 
-    <canvas id="canvas"></canvas>
-    <button id="downloadBtn" style="display:none;">Download</button>
-    <button class="reset" id="resetBtn" style="display:none;">Reset</button>
-  </div>
+    <footer id="footerText">
+        © 2025 <span id="designerText">Designer Meriç YÜZAKLI</span><br>
+        <a href="RMR" target="_blank" id="rmrLink">RMR</a>
+    </footer>
 
-  <footer id="footerText">
-    © 2025 <span id="designerText">Designer Meriç YÜZAKLI</span><br>
-    <a href="RMR" target="_blank" id="rmrLink">RMR</a>
-  </footer>
+    <script>
+        const upload = document.getElementById('upload');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const video = document.getElementById('video');
+        const capture = document.getElementById('capture');
+        const errorMessage = document.getElementById('errorMessage');
+        const languageSelect = document.getElementById('languageSelect');
+        const otherFramesBtn = document.getElementById('otherFramesBtn');
 
-  <script>
-    const upload = document.getElementById('upload');
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const video = document.getElementById('video');
-    const capture = document.getElementById('capture');
-    const errorMessage = document.getElementById('errorMessage');
-    const languageSelect = document.getElementById('languageSelect');
-    const otherFramesBtn = document.getElementById('otherFramesBtn');
+        const frame = new Image();
+        frame.crossOrigin = "anonymous";
+        frame.src = "https://benmeric.github.io/solidarityframe/plframe.png";
 
-    const frame = new Image();
-    frame.crossOrigin = "anonymous";
-    frame.src = "https://benmeric.github.io/solidarityframe/plframe.png";
-
-    let isFrameLoaded = false;
-    frame.onload = () => {
-      console.log("Frame loaded.");
-      isFrameLoaded = true;
-    };
-    frame.onerror = () => {
-      console.error("Frame failed to load.");
-      isFrameLoaded = false;
-    };
-
-    upload.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function (event) {
-        const img = new Image();
-        img.onload = function () {
-          try {
-            drawImageWithFrame(img);
-            errorMessage.style.display = "none";
-          } catch (err) {
-            console.error("Drawing error:", err);
-            errorMessage.style.display = "block";
-          }
+        let isFrameLoaded = false;
+        frame.onload = () => {
+            console.log("Frame loaded.");
+            isFrameLoaded = true;
         };
-        img.onerror = function () {
-          errorMessage.style.display = "block";
+        frame.onerror = () => {
+            console.error("Frame failed to load.");
+            isFrameLoaded = false;
         };
-        img.src = event.target.result;
-      };
-      reader.onerror = function () {
-        errorMessage.style.display = "block";
-      };
-      reader.readAsDataURL(file);
-    });
 
-    function openCamera() {
-      navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => {
-          video.style.display = "block";
-          capture.style.display = "block";
-          video.srcObject = stream;
-        })
-        .catch(err => {
-          alert("Camera access denied or not supported.");
+        upload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const img = new Image();
+                img.onload = function () {
+                    try {
+                        drawImageWithFrame(img);
+                        errorMessage.style.display = "none";
+                    } catch (err) {
+                        console.error("Drawing error:", err);
+                        errorMessage.style.display = "block";
+                    }
+                };
+                img.onerror = function () {
+                    errorMessage.style.display = "block";
+                };
+                img.src = event.target.result;
+            };
+            reader.onerror = function () {
+                errorMessage.style.display = "block";
+            };
+            reader.readAsDataURL(file);
         });
-    }
 
-    capture.addEventListener("click", () => {
-    canvas.width = 818;
-    canvas.height = 818;
+        function openCamera() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.style.display = "block";
+                    capture.style.display = "block";
+                    video.srcObject = stream;
+                })
+                .catch(err => {
+                    alert("Camera access denied or not supported.");
+                });
+        }
 
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      if (isFrameLoaded) {
-        drawFrame();
-      }
-      canvas.style.display = "block";
-      downloadBtn.style.display = "block";
-      resetBtn.style.display = "block";
-      video.srcObject.getTracks().forEach(track => track.stop());
-      video.style.display = "none";
-      capture.style.display = "none";
-    });
+        capture.addEventListener("click", () => {
+            canvas.width = 818;
+            canvas.height = 818;
 
-    function drawImageWithFrame(image) {
-    canvas.width = 818;
-    canvas.height = 818;
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            if (isFrameLoaded) {
+                drawFrame();
+            }
+            canvas.style.display = "block";
+            downloadBtn.style.display = "block";
+            resetBtn.style.display = "block";
+            video.srcObject.getTracks().forEach(track => track.stop());
+            video.style.display = "none";
+            capture.style.display = "none";
+        });
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+        function drawImageWithFrame(image) {
+            canvas.width = 818;
+            canvas.height = 818;
 
-      const imgWidth = image.width;
-      const imgHeight = image.height;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const frameAspect = frame.width / frame.height;
-      const imgAspect = imgWidth / imgHeight;
+            const canvasRatio = canvas.width / canvas.height;
+            const imageRatio = image.width / image.height;
 
-      let drawWidth, drawHeight;
-      
-      // Calculate appropriate dimensions based on image ratio
-      if (imgAspect > frameAspect) {
-        drawWidth = frame.width;
-        drawHeight = frame.width / imgAspect;
-      } else {
-        drawHeight = frame.height;
-        drawWidth = frame.height * imgAspect;
-      }
+            let sx, sy, sw, sh;
 
-      // Center the image
-      const offsetX = (frame.width - drawWidth) / 2;
-      const offsetY = (frame.height - drawHeight) / 2;
+            if (imageRatio > canvasRatio) {
+                // Görsel yatayda daha geniş: üstten ve alttan kırp
+                sh = image.height;
+                sw = sh * canvasRatio;
+                sx = (image.width - sw) / 2;
+                sy = 0;
+            } else {
+                // Görsel dikeyde daha yüksek: sağdan ve soldan kırp
+                sw = image.width;
+                sh = sw / canvasRatio;
+                sx = 0;
+                sy = (image.height - sh) / 2;
+            }
 
-      ctx.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
+            ctx.drawImage(image, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
 
-      if (isFrameLoaded) {
-        drawFrame();
-      }
-      canvas.style.display = "block";
-      downloadBtn.style.display = "block";
-      resetBtn.style.display = "block";
-    }
+            if (isFrameLoaded) {
+                drawFrame();
+            }
 
-    function drawFrame() {
-      try {
-        ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
-      } catch (e) {
-        console.error("Failed to draw frame:", e);
-      }
-    }
+            canvas.style.display = "block";
+            downloadBtn.style.display = "block";
+            resetBtn.style.display = "block";
+        }
 
-    downloadBtn.addEventListener("click", () => {
-      const link = document.createElement("a");
-      link.download = "palestine-support-photo.png";
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    });
 
-    resetBtn.addEventListener("click", () => {
-      canvas.style.display = "none";
-      downloadBtn.style.display = "none";
-      resetBtn.style.display = "none";
-      video.style.display = "none";
-      capture.style.display = "none";
-      upload.value = "";
-      errorMessage.style.display = "none";
-    });
+        function drawFrame() {
+            try {
+                ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
+            } catch (e) {
+                console.error("Failed to draw frame:", e);
+            }
+        }
 
-    const translations = {
-      en: {
-        title: "📸 Create a Palestine Support Photo",
-        join: "Join the solidarity!",
-        subtitle: "Add a Palestine frame to your social media profiles and show your support!",
-        tutorial: "For the tutorial video",
-        clickHere: "click here!",
-        upload: "Upload Photo",
-        camera: "📷 Take Photo",
-        otherFrames: "← Other Frames",
-        capture: "📸 Capture",
-        download: "Download",
-        reset: "Reset",
-        error: "An error occurred. Please try a different photo.",
-        designer: "Designer Meriç YÜZAKLI",
-        rmr: ""
-      },
-      tr: {
-        title: "📸 Filistin Destek Fotoğrafı Oluştur",
-        join: "Dayanışmaya katıl!",
-        subtitle: "Sosyal medya profillerinize Filistin çerçevesi ekleyerek desteğinizi gösterin!",
-        tutorial: "Yardım klavuzu videosu için",
-        clickHere: "buraya tıklayın!",
-        upload: "Fotoğraf Yükle",
-        camera: "📷 Fotoğraf Çek",
-        otherFrames: "← Diğer Çerçeveler",
-        capture: "📸 Çek",
-        download: "İndir",
-        reset: "Sıfırla",
-        error: "Bir hata oluştu. Lütfen farklı bir fotoğraf yükleyin.",
-        designer: "Tasarımcı Meriç YÜZAKLI",
-        rmr: ""
-      },
-      ar: {
-        title: "📸خلق صورة لدعم تركستان الشرقية",
-        join: "انضم إلى التضامن!",
-        subtitle: "أضف إطار فلسطين إلى ملفاتك الشخصية على وسائل التواصل الاجتماعي وأظهر دعمك!",
-        tutorial: "لفيديو التعليمي",
-        clickHere: "انقر هنا!",
-        upload: "تحميل صورة",
-        camera: "📷 التقط صورة",
-        otherFrames: "← إطارات أخرى",
-        capture: "📸 التقط",
-        download: "تحميل",
-        reset: "إعادة تعيين",
-        error: "حدث خطأ. يرجى تجربة صورة مختلفة.",
-        designer: "المصمم ميريتش يوزاكلي",
-        rmr: ""
-      },
-      az: {
-        title: "📸 Fələstini dəstəkləyən bir şəkil yaradın",
-        join: "Həmrəylikə qoşulun!",
-        subtitle: "Sosial media profillərinizə Fələstin çərçivəsi əlavə edin və dəstəyinizi göstərin!",
-        tutorial: "Təlimat videosu üçün",
-        clickHere: "buraya klikləyin!",
-        upload: "Fotoşəkil Yüklə",
-        camera: "📷 Fotoşəkil Çək",
-        otherFrames: "← Digər Çərçivələr",
-        capture: "📸 Çək",
-        download: "Yüklə",
-        reset: "Sıfırla",
-        error: "Xəta baş verdi. Zəhmət olmasa başqa fotoşəkil yoxlayın.",
-        designer: "Dizayner Meriç YÜZAKLI",
-        rmr: ""
-      }
-    };
+        downloadBtn.addEventListener("click", () => {
+            const link = document.createElement("a");
+            link.download = "palestine-support-photo.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        });
 
-    function updateTranslations(lang) {
-      const t = translations[lang] || translations['en'];
-      document.getElementById("titleText").innerHTML = `<img src="https://benmeric.github.io/solidarityframe/filistinfoto.png" alt="emoji-gorsel" style="width: 28px; vertical-align: middle;"> <span id="titleJoin">${t.join}</span>`;
-      document.getElementById("subtitleText").textContent = t.subtitle;
-      document.getElementById("tutorialText").textContent = t.tutorial;
-      document.getElementById("clickHereText").textContent = t.clickHere;
-      document.getElementById("uploadLabel").textContent = t.upload;
-      document.getElementById("cameraButton").textContent = t.camera;
-      document.getElementById("otherFramesBtn").textContent = t.otherFrames;
-      document.getElementById("capture").textContent = t.capture;
-      document.getElementById("downloadBtn").textContent = t.download;
-      document.getElementById("resetBtn").textContent = t.reset;
-      document.getElementById("errorMessage").textContent = t.error;
-      document.getElementById("designerText").textContent = t.designer;
-      document.getElementById("rmrLink").textContent = t.rmr;
-    }
+        resetBtn.addEventListener("click", () => {
+            canvas.style.display = "none";
+            downloadBtn.style.display = "none";
+            resetBtn.style.display = "none";
+            video.style.display = "none";
+            capture.style.display = "none";
+            upload.value = "";
+            errorMessage.style.display = "none";
+        });
 
-    languageSelect.addEventListener("change", function() {
-      const lang = this.value;
-      updateTranslations(lang);
-    });
+        const translations = {
+            en: {
+                title: "📸 Create a Palestine Support Photo",
+                join: "Join the solidarity!",
+                subtitle: "Add a Palestine frame to your social media profiles and show your support!",
+                tutorial: "For the tutorial video",
+                clickHere: "click here!",
+                upload: "Upload Photo",
+                camera: "📷 Take Photo",
+                otherFrames: "← Other Frames",
+                capture: "📸 Capture",
+                download: "Download",
+                reset: "Reset",
+                error: "An error occurred. Please try a different photo.",
+                designer: "Designer Meriç YÜZAKLI",
+                rmr: ""
+            },
+            tr: {
+                title: "📸 Filistin Destek Fotoğrafı Oluştur",
+                join: "Dayanışmaya katıl!",
+                subtitle: "Sosyal medya profillerinize Filistin çerçevesi ekleyerek desteğinizi gösterin!",
+                tutorial: "Yardım klavuzu videosu için",
+                clickHere: "buraya tıklayın!",
+                upload: "Fotoğraf Yükle",
+                camera: "📷 Fotoğraf Çek",
+                otherFrames: "← Diğer Çerçeveler",
+                capture: "📸 Çek",
+                download: "İndir",
+                reset: "Sıfırla",
+                error: "Bir hata oluştu. Lütfen farklı bir fotoğraf yükleyin.",
+                designer: "Tasarımcı Meriç YÜZAKLI",
+                rmr: ""
+            },
+            ar: {
+                title: "📸خلق صورة لدعم تركستان الشرقية",
+                join: "انضم إلى التضامن!",
+                subtitle: "أضف إطار فلسطين إلى ملفاتك الشخصية على وسائل التواصل الاجتماعي وأظهر دعمك!",
+                tutorial: "لفيديو التعليمي",
+                clickHere: "انقر هنا!",
+                upload: "تحميل صورة",
+                camera: "📷 التقط صورة",
+                otherFrames: "← إطارات أخرى",
+                capture: "📸 التقط",
+                download: "تحميل",
+                reset: "إعادة تعيين",
+                error: "حدث خطأ. يرجى تجربة صورة مختلفة.",
+                designer: "المصمم ميريتش يوزاكلي",
+                rmr: ""
+            },
+            az: {
+                title: "📸 Fələstini dəstəkləyən bir şəkil yaradın",
+                join: "Həmrəylikə qoşulun!",
+                subtitle: "Sosial media profillərinizə Fələstin çərçivəsi əlavə edin və dəstəyinizi göstərin!",
+                tutorial: "Təlimat videosu üçün",
+                clickHere: "buraya klikləyin!",
+                upload: "Fotoşəkil Yüklə",
+                camera: "📷 Fotoşəkil Çək",
+                otherFrames: "← Digər Çərçivələr",
+                capture: "📸 Çək",
+                download: "Yüklə",
+                reset: "Sıfırla",
+                error: "Xəta baş verdi. Zəhmət olmasa başqa fotoşəkil yoxlayın.",
+                designer: "Dizayner Meriç YÜZAKLI",
+                rmr: ""
+            }
+        };
 
-    // Set English as default
-    updateTranslations('en');
-  </script>
+        function updateTranslations(lang) {
+            const t = translations[lang] || translations['en'];
+            document.getElementById("titleText").innerHTML = `<img src="https://benmeric.github.io/solidarityframe/filistinfoto.png" alt="emoji-gorsel" style="width: 28px; vertical-align: middle;"> <span id="titleJoin">${t.join}</span>`;
+            document.getElementById("subtitleText").textContent = t.subtitle;
+            document.getElementById("tutorialText").textContent = t.tutorial;
+            document.getElementById("clickHereText").textContent = t.clickHere;
+            document.getElementById("uploadLabel").textContent = t.upload;
+            document.getElementById("cameraButton").textContent = t.camera;
+            document.getElementById("otherFramesBtn").textContent = t.otherFrames;
+            document.getElementById("capture").textContent = t.capture;
+            document.getElementById("downloadBtn").textContent = t.download;
+            document.getElementById("resetBtn").textContent = t.reset;
+            document.getElementById("errorMessage").textContent = t.error;
+            document.getElementById("designerText").textContent = t.designer;
+            document.getElementById("rmrLink").textContent = t.rmr;
+        }
+
+        languageSelect.addEventListener("change", function () {
+            const lang = this.value;
+            updateTranslations(lang);
+        });
+
+        updateTranslations('en');
+    </script>
 </body>
 </html>
